@@ -1,0 +1,4748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ABHYUDAYA GROUP | Club Administration Portal</title>
+
+<style>
+/* =========================================================
+   ABHYUDAYA GROUP
+   CLUB ADMINISTRATION PORTAL
+   COMPLETE SINGLE-FILE FRONTEND
+========================================================= */
+
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --secondary:#7c3aed;
+    --success:#16a34a;
+    --warning:#d97706;
+    --danger:#dc2626;
+
+    --bg:#f4f7fb;
+    --surface:#ffffff;
+    --surface-2:#f8fafc;
+    --text:#111827;
+    --muted:#64748b;
+    --border:#e2e8f0;
+
+    --sidebar:#0f172a;
+    --sidebar-text:#cbd5e1;
+    --sidebar-hover:#1e293b;
+
+    --shadow:0 10px 30px rgba(15,23,42,.07);
+    --radius:14px;
+
+    --transition:.25s ease;
+}
+
+body.dark{
+    --bg:#0b1120;
+    --surface:#111827;
+    --surface-2:#172033;
+    --text:#f1f5f9;
+    --muted:#94a3b8;
+    --border:#263449;
+
+    --sidebar:#070c16;
+    --sidebar-text:#cbd5e1;
+    --sidebar-hover:#162033;
+
+    --shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+    width:270px;
+    background:var(--sidebar);
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
+    transition:transform .3s ease;
+}
+
+.brand{
+    height:82px;
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    width:46px;
+    height:46px;
+    border-radius:10px;
+    object-fit:cover;
+    background:#fff;
+    padding:3px;
+}
+
+.brand-text h2{
+    font-size:15px;
+    letter-spacing:1px;
+    font-weight:800;
+}
+
+.brand-text span{
+    display:block;
+    font-size:11px;
+    color:#94a3b8;
+    margin-top:3px;
+}
+
+.sidebar-nav{
+    flex:1;
+    padding:20px 13px;
+    overflow-y:auto;
+}
+
+.nav-title{
+    color:#64748b;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    padding:12px 12px 8px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    width:100%;
+    padding:12px 13px;
+    margin-bottom:4px;
+    border-radius:9px;
+    color:var(--sidebar-text);
+    border:none;
+    background:transparent;
+    text-align:left;
+    transition:.2s;
+    font-size:14px;
+}
+
+.nav-item:hover{
+    background:var(--sidebar-hover);
+    color:white;
+}
+
+.nav-item.active{
+    background:var(--primary);
+    color:white;
+    box-shadow:0 6px 15px rgba(37,99,235,.25);
+}
+
+.nav-icon{
+    width:21px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-footer{
+    padding:15px;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.profile-mini{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    font-weight:700;
+    font-size:13px;
+}
+
+.profile-mini strong{
+    display:block;
+    font-size:13px;
+}
+
+.profile-mini small{
+    color:#94a3b8;
+    font-size:11px;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+    width:calc(100% - 270px);
+    margin-left:270px;
+    min-height:100vh;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar{
+    height:82px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.topbar-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.mobile-menu{
+    display:none;
+    width:40px;
+    height:40px;
+    border:none;
+    background:var(--surface-2);
+    color:var(--text);
+    border-radius:8px;
+    font-size:20px;
+}
+
+.page-title h1{
+    font-size:21px;
+    font-weight:750;
+}
+
+.page-title p{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.icon-button{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+    border-radius:9px;
+    display:grid;
+    place-items:center;
+    font-size:17px;
+    transition:.2s;
+}
+
+.icon-button:hover{
+    background:var(--surface-2);
+}
+
+.notification{
+    position:relative;
+}
+
+.notification-dot{
+    position:absolute;
+    right:7px;
+    top:6px;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--danger);
+    border:2px solid var(--surface);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+    padding:30px;
+    max-width:1700px;
+    margin:auto;
+}
+
+.page{
+    display:none;
+    animation:fadeIn .25s ease;
+}
+
+.page.active{
+    display:block;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.welcome{
+    background:
+        linear-gradient(120deg,#1d4ed8,#4f46e5 55%,#7c3aed);
+    color:white;
+    padding:28px;
+    border-radius:18px;
+    margin-bottom:24px;
+    position:relative;
+    overflow:hidden;
+}
+
+.welcome::after{
+    content:"";
+    width:240px;
+    height:240px;
+    position:absolute;
+    right:-80px;
+    top:-100px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+}
+
+.welcome h2{
+    font-size:25px;
+    margin-bottom:6px;
+}
+
+.welcome p{
+    color:#dbeafe;
+    font-size:14px;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:24px;
+}
+
+.stat-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:45px;
+    height:45px;
+    border-radius:11px;
+    display:grid;
+    place-items:center;
+    font-size:20px;
+}
+
+.icon-blue{
+    background:#dbeafe;
+    color:#2563eb;
+}
+
+.icon-green{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.icon-purple{
+    background:#ede9fe;
+    color:#7c3aed;
+}
+
+.icon-orange{
+    background:#ffedd5;
+    color:#ea580c;
+}
+
+.dark .icon-blue{
+    background:#172554;
+}
+
+.dark .icon-green{
+    background:#052e16;
+}
+
+.dark .icon-purple{
+    background:#2e1065;
+}
+
+.dark .icon-orange{
+    background:#431407;
+}
+
+.stat-card h3{
+    font-size:28px;
+    margin-top:15px;
+}
+
+.stat-card p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:3px;
+}
+
+.stat-change{
+    font-size:11px;
+    color:var(--success);
+    margin-top:10px;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+
+.card-header{
+    padding:18px 20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-header h3{
+    font-size:15px;
+}
+
+.card-header span{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.card-body{
+    padding:20px;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th{
+    text-align:left;
+    padding:12px 15px;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    background:var(--surface-2);
+}
+
+td{
+    padding:14px 15px;
+    border-top:1px solid var(--border);
+    font-size:13px;
+}
+
+.member-cell{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.member-avatar{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    display:grid;
+    place-items:center;
+    color:white;
+    font-size:11px;
+    font-weight:700;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.member-name{
+    font-weight:700;
+}
+
+.member-email{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:2px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    padding:5px 9px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:700;
+}
+
+.badge-green{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-blue{
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+.badge-orange{
+    background:#ffedd5;
+    color:#9a3412;
+}
+
+.badge-red{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.badge-purple{
+    background:#ede9fe;
+    color:#5b21b6;
+}
+
+.dark .badge-green{
+    background:#052e16;
+    color:#86efac;
+}
+
+.dark .badge-blue{
+    background:#172554;
+    color:#93c5fd;
+}
+
+.dark .badge-orange{
+    background:#431407;
+    color:#fdba74;
+}
+
+.dark .badge-red{
+    background:#450a0a;
+    color:#fca5a5;
+}
+
+.dark .badge-purple{
+    background:#2e1065;
+    color:#c4b5fd;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:10px 15px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    font-size:12px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-secondary{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+}
+
+.btn-danger{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.dark .btn-danger{
+    background:#450a0a;
+    color:#fca5a5;
+}
+
+.btn-success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.dark .btn-success{
+    background:#052e16;
+    color:#86efac;
+}
+
+.btn-small{
+    padding:7px 10px;
+    font-size:11px;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.toolbar-left,
+.toolbar-right{
+    display:flex;
+    gap:9px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.search{
+    position:relative;
+}
+
+.search input{
+    width:260px;
+    padding:10px 13px 10px 36px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    outline:none;
+    background:var(--surface);
+    color:var(--text);
+}
+
+.search span{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--muted);
+}
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    font-size:12px;
+    font-weight:700;
+}
+
+.form-control{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    outline:none;
+    background:var(--surface);
+    color:var(--text);
+}
+
+.form-control:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+textarea.form-control{
+    min-height:100px;
+    resize:vertical;
+}
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:9px;
+    margin-top:20px;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.6);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:600px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:var(--surface);
+    border-radius:16px;
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:19px 22px;
+    border-bottom:1px solid var(--border);
+}
+
+.modal-header h3{
+    font-size:16px;
+}
+
+.modal-close{
+    width:32px;
+    height:32px;
+    border:none;
+    background:var(--surface-2);
+    color:var(--text);
+    border-radius:7px;
+}
+
+.modal-body{
+    padding:22px;
+}
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+.event-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.event-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.event-cover{
+    height:135px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.9),
+            rgba(124,58,237,.9)
+        );
+    display:flex;
+    align-items:flex-end;
+    padding:16px;
+    color:white;
+}
+
+.event-cover h3{
+    font-size:17px;
+}
+
+.event-info{
+    padding:16px;
+}
+
+.event-info p{
+    font-size:12px;
+    color:var(--muted);
+    margin:7px 0;
+}
+
+/* =========================================================
+   MEDIA
+========================================================= */
+
+.media-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+
+.media-card{
+    border:1px solid var(--border);
+    background:var(--surface);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.media-preview{
+    height:150px;
+    background:
+        linear-gradient(135deg,#dbeafe,#ede9fe);
+    display:grid;
+    place-items:center;
+    font-size:38px;
+}
+
+.dark .media-preview{
+    background:linear-gradient(135deg,#172554,#2e1065);
+}
+
+.media-info{
+    padding:13px;
+}
+
+.media-info strong{
+    font-size:12px;
+}
+
+.media-info small{
+    color:var(--muted);
+    display:block;
+    margin-top:4px;
+}
+
+/* =========================================================
+   ANNOUNCEMENTS
+========================================================= */
+
+.announcement{
+    display:flex;
+    gap:13px;
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.announcement:last-child{
+    border-bottom:none;
+}
+
+.announcement-icon{
+    width:40px;
+    height:40px;
+    border-radius:9px;
+    background:#dbeafe;
+    color:#2563eb;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+}
+
+.announcement h4{
+    font-size:13px;
+}
+
+.announcement p{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:5px;
+}
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity-item{
+    display:flex;
+    gap:13px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.activity-item:last-child{
+    border-bottom:none;
+}
+
+.activity-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--primary);
+    margin-top:5px;
+    flex-shrink:0;
+}
+
+.activity-item p{
+    font-size:12px;
+}
+
+.activity-item small{
+    display:block;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.settings-layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:20px;
+}
+
+.settings-menu{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:10px;
+    height:max-content;
+}
+
+.settings-tab{
+    width:100%;
+    border:none;
+    background:transparent;
+    color:var(--text);
+    text-align:left;
+    padding:11px;
+    border-radius:7px;
+    font-size:12px;
+    margin-bottom:3px;
+}
+
+.settings-tab:hover,
+.settings-tab.active{
+    background:var(--surface-2);
+    color:var(--primary);
+    font-weight:700;
+}
+
+.setting-section{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+    margin-bottom:18px;
+}
+
+.setting-section h3{
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.setting-section > p{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+.setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 0;
+    border-top:1px solid var(--border);
+    gap:20px;
+}
+
+.setting-row:first-of-type{
+    border-top:none;
+}
+
+.setting-row strong{
+    font-size:13px;
+}
+
+.setting-row p{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+/* Toggle */
+
+.switch{
+    position:relative;
+    width:42px;
+    height:23px;
+    flex-shrink:0;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#cbd5e1;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.slider::before{
+    content:"";
+    position:absolute;
+    width:17px;
+    height:17px;
+    left:3px;
+    top:3px;
+    background:white;
+    border-radius:50%;
+    transition:.2s;
+}
+
+.switch input:checked + .slider{
+    background:var(--primary);
+}
+
+.switch input:checked + .slider::before{
+    transform:translateX(19px);
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast-container{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:5000;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.toast{
+    min-width:270px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    border-radius:10px;
+    padding:13px 15px;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    animation:toastIn .25s ease;
+}
+
+@keyframes toastIn{
+    from{
+        transform:translateX(20px);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.empty h3{
+    color:var(--text);
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.empty p{
+    font-size:12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px){
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .event-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .media-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        transform:translateX(-100%);
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        width:100%;
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:grid;
+        place-items:center;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+    .settings-layout{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:650px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .page-title h1{
+        font-size:17px;
+    }
+
+    .top-actions .hide-mobile{
+        display:none;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .event-grid{
+        grid-template-columns:1fr;
+    }
+
+    .media-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .search input{
+        width:100%;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    .toolbar{
+        align-items:stretch;
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+        width:100%;
+    }
+
+    .toolbar-right .btn{
+        flex:1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ======================================================
+     SIDEBAR
+====================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+        <!-- Replace this src with your actual club logo -->
+        <img
+            src="abhyudaya-logo.jpg"
+            class="logo"
+            alt="ABHYUDAYA GROUP Logo"
+            onerror="this.style.display='none';"
+        >
+
+        <div class="brand-text">
+            <h2>ABHYUDAYA GROUP</h2>
+            <span>Club Administration Portal</span>
+        </div>
+
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <div class="nav-title">MAIN</div>
+
+        <button class="nav-item active" data-page="dashboard">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </button>
+
+        <button class="nav-item" data-page="members">
+            <span class="nav-icon">♙</span>
+            Members
+        </button>
+
+        <button class="nav-item" data-page="events">
+            <span class="nav-icon">◫</span>
+            Events
+        </button>
+
+        <button class="nav-item" data-page="media">
+            <span class="nav-icon">▧</span>
+            Media Library
+        </button>
+
+        <div class="nav-title">COMMUNICATION</div>
+
+        <button class="nav-item" data-page="announcements">
+            <span class="nav-icon">◉</span>
+            Announcements
+        </button>
+
+        <button class="nav-item" data-page="activity">
+            <span class="nav-icon">◷</span>
+            Activity Log
+        </button>
+
+        <div class="nav-title">ADMINISTRATION</div>
+
+        <button class="nav-item" data-page="settings">
+            <span class="nav-icon">⚙</span>
+            Settings
+        </button>
+
+    </nav>
+
+    <div class="sidebar-footer">
+
+        <div class="profile-mini">
+
+            <div class="avatar">AD</div>
+
+            <div>
+                <strong>Club Administrator</strong>
+                <small>Super Admin</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- ======================================================
+     MAIN
+====================================================== -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+            >
+                ☰
+            </button>
+
+            <div class="page-title">
+
+                <h1 id="pageTitle">
+                    Dashboard
+                </h1>
+
+                <p id="pageSubtitle">
+                    Overview of your club administration
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <button
+                class="icon-button"
+                id="themeButton"
+                title="Toggle dark/light mode"
+            >
+                ☀
+            </button>
+
+            <button
+                class="icon-button notification"
+                onclick="showToast('You have 3 new notifications')"
+                title="Notifications"
+            >
+                ♧
+                <span class="notification-dot"></span>
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <!-- ==================================================
+             DASHBOARD
+        ================================================== -->
+
+        <div class="page active" id="dashboard">
+
+            <div class="welcome">
+
+                <h2>Welcome back, Administrator 👋</h2>
+
+                <p>
+                    Manage members, events, media and club operations
+                    from one central platform.
+                </p>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+                            <p>Total Members</p>
+                            <h3 id="statMembers">0</h3>
+                        </div>
+
+                        <div class="stat-icon icon-blue">
+                            ♙
+                        </div>
+
+                    </div>
+
+                    <div class="stat-change">
+                        ↑ Active club members
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+                            <p>Upcoming Events</p>
+                            <h3 id="statEvents">0</h3>
+                        </div>
+
+                        <div class="stat-icon icon-purple">
+                            ◫
+                        </div>
+
+                    </div>
+
+                    <div class="stat-change">
+                        ↑ Scheduled activities
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+                            <p>Media Files</p>
+                            <h3 id="statMedia">0</h3>
+                        </div>
+
+                        <div class="stat-icon icon-orange">
+                            ▧
+                        </div>
+
+                    </div>
+
+                    <div class="stat-change">
+                        Organized content
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div>
+                            <p>Announcements</p>
+                            <h3 id="statAnnouncements">0</h3>
+                        </div>
+
+                        <div class="stat-icon icon-green">
+                            ◉
+                        </div>
+
+                    </div>
+
+                    <div class="stat-change">
+                        Latest communications
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <!-- Recent Members -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>Recently Added Members</h3>
+
+                        <button
+                            class="btn btn-secondary btn-small"
+                            onclick="navigate('members')"
+                        >
+                            View All
+                        </button>
+
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recentMembers">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Activity -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h3>Recent Activity</h3>
+
+                    </div>
+
+                    <div class="card-body" id="dashboardActivity">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             MEMBERS
+        ================================================== -->
+
+        <div class="page" id="members">
+
+            <div class="toolbar">
+
+                <div class="toolbar-left">
+
+                    <div class="search">
+
+                        <span>⌕</span>
+
+                        <input
+                            type="text"
+                            id="memberSearch"
+                            placeholder="Search members..."
+                            oninput="renderMembers()"
+                        >
+
+                    </div>
+
+                    <select
+                        class="form-control"
+                        id="departmentFilter"
+                        onchange="renderMembers()"
+                        style="width:170px;"
+                    >
+
+                        <option value="">All Departments</option>
+                        <option>Events</option>
+                        <option>PR</option>
+                        <option>Creative</option>
+                        <option>Technical</option>
+                        <option>Management</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="toolbar-right">
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="exportMembers()"
+                    >
+                        ↓ Export CSV
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openMemberModal()"
+                    >
+                        + Add Member
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Club Members</h3>
+                        <span>Manage all registered club members</span>
+                    </div>
+
+                    <span id="memberCount">
+                        0 members
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Member</th>
+                                <th>Role</th>
+                                <th>Department</th>
+                                <th>Year</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="membersTable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             EVENTS
+        ================================================== -->
+
+        <div class="page" id="events">
+
+            <div class="toolbar">
+
+                <div>
+                    <h2 style="font-size:18px;">
+                        Club Events
+                    </h2>
+
+                    <p style="font-size:12px;color:var(--muted);">
+                        Plan and organize club activities.
+                    </p>
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="openEventModal()"
+                >
+                    + Create Event
+                </button>
+
+            </div>
+
+
+            <div
+                class="event-grid"
+                id="eventsGrid"
+            ></div>
+
+        </div>
+
+
+        <!-- ==================================================
+             MEDIA
+        ================================================== -->
+
+        <div class="page" id="media">
+
+            <div class="toolbar">
+
+                <div>
+
+                    <h2 style="font-size:18px;">
+                        Media Library
+                    </h2>
+
+                    <p style="font-size:12px;color:var(--muted);">
+                        Organize images and club content.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="openMediaModal()"
+                >
+                    + Add Media
+                </button>
+
+            </div>
+
+
+            <div
+                class="media-grid"
+                id="mediaGrid"
+            ></div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ANNOUNCEMENTS
+        ================================================== -->
+
+        <div class="page" id="announcements">
+
+            <div class="toolbar">
+
+                <div>
+
+                    <h2 style="font-size:18px;">
+                        Announcements
+                    </h2>
+
+                    <p style="font-size:12px;color:var(--muted);">
+                        Important communication for club members.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="openAnnouncementModal()"
+                >
+                    + New Announcement
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <div
+                    class="card-body"
+                    id="announcementList"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ACTIVITY
+        ================================================== -->
+
+        <div class="page" id="activity">
+
+            <div class="toolbar">
+
+                <div>
+
+                    <h2 style="font-size:18px;">
+                        Activity Log
+                    </h2>
+
+                    <p style="font-size:12px;color:var(--muted);">
+                        Track important administrative actions.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="clearActivity()"
+                >
+                    Clear Log
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <div
+                    class="card-body"
+                    id="activityList"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             SETTINGS
+        ================================================== -->
+
+        <div class="page" id="settings">
+
+            <div class="settings-layout">
+
+                <div class="settings-menu">
+
+                    <button class="settings-tab active">
+                        ⚙ General
+                    </button>
+
+                    <button class="settings-tab">
+                        👥 Members
+                    </button>
+
+                    <button class="settings-tab">
+                        🔐 Permissions
+                    </button>
+
+                    <button class="settings-tab">
+                        🔔 Notifications
+                    </button>
+
+                    <button class="settings-tab">
+                        💾 Data & Backup
+                    </button>
+
+                </div>
+
+
+                <div>
+
+                    <!-- General -->
+
+                    <div class="setting-section">
+
+                        <h3>General Settings</h3>
+
+                        <p>
+                            Configure basic information about
+                            ABHYUDAYA GROUP.
+                        </p>
+
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Club Name
+                                </label>
+
+                                <input
+                                    class="form-control"
+                                    value="ABHYUDAYA GROUP"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Administrator Email
+                                </label>
+
+                                <input
+                                    class="form-control"
+                                    type="email"
+                                    value="admin@abhyudaya.club"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group full">
+
+                                <label>
+                                    Club Description
+                                </label>
+
+                                <textarea
+                                    class="form-control"
+                                >Official administration portal for ABHYUDAYA GROUP.</textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="showToast('Settings saved successfully')"
+                            >
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Interface -->
+
+                    <div class="setting-section">
+
+                        <h3>Interface</h3>
+
+                        <p>
+                            Customize the appearance of the portal.
+                        </p>
+
+
+                        <div class="setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Dark Mode
+                                </strong>
+
+                                <p>
+                                    Use a darker interface for low-light environments.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="darkToggle"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Compact Tables
+                                </strong>
+
+                                <p>
+                                    Reduce table spacing.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Member management -->
+
+                    <div class="setting-section">
+
+                        <h3>Member Management</h3>
+
+                        <p>
+                            Options for managing club membership.
+                        </p>
+
+
+                        <div class="setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Allow Member Registration
+                                </strong>
+
+                                <p>
+                                    Allow administrators to add new members.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Require Member Approval
+                                </strong>
+
+                                <p>
+                                    New members require administrator approval.
+                                </p>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Data -->
+
+                    <div class="setting-section">
+
+                        <h3>Data & Backup</h3>
+
+                        <p>
+                            Manage the data stored by this prototype.
+                        </p>
+
+
+                        <div class="setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Export All Data
+                                </strong>
+
+                                <p>
+                                    Download your current browser data as JSON.
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="exportData()"
+                            >
+                                Export JSON
+                            </button>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div>
+
+                                <strong>
+                                    Reset Demo Data
+                                </strong>
+
+                                <p>
+                                    Restore the original sample records.
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="resetData()"
+                            >
+                                Reset
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
+
+<!-- ======================================================
+     MEMBER MODAL
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="memberModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3 id="memberModalTitle">
+                Add New Member
+            </h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('memberModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="memberForm">
+
+                <input
+                    type="hidden"
+                    id="memberId"
+                >
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name *
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="memberName"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email *
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="memberEmail"
+                            type="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Role *
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="memberRole"
+                            required
+                        >
+
+                            <option>Member</option>
+                            <option>Coordinator</option>
+                            <option>Team Lead</option>
+                            <option>Core Member</option>
+                            <option>Admin</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Department *
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="memberDepartment"
+                            required
+                        >
+
+                            <option>Events</option>
+                            <option>PR</option>
+                            <option>Creative</option>
+                            <option>Technical</option>
+                            <option>Management</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Academic Year
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="memberYear"
+                        >
+
+                            <option>1st Year</option>
+                            <option>2nd Year</option>
+                            <option>3rd Year</option>
+                            <option>4th Year</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Status
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="memberStatus"
+                        >
+
+                            <option>Active</option>
+                            <option>Pending</option>
+                            <option>Inactive</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="closeModal('memberModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Save Member
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     EVENT MODAL
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="eventModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3>Create Event</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('eventModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="eventForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label>
+                            Event Name *
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="eventName"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Date
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="date"
+                            id="eventDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Time
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="time"
+                            id="eventTime"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Location
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="eventLocation"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="eventDescription"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="closeModal('eventModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        type="submit"
+                    >
+                        Create Event
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     MEDIA MODAL
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="mediaModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3>Add Media</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('mediaModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="mediaForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label>
+                            Media Title *
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="mediaTitle"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="mediaCategory"
+                        >
+
+                            <option>Event</option>
+                            <option>Team</option>
+                            <option>Promotion</option>
+                            <option>Poster</option>
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            File Type
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="mediaType"
+                        >
+
+                            <option>Image</option>
+                            <option>Poster</option>
+                            <option>Document</option>
+                            <option>Video</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="closeModal('mediaModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Add Media
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     ANNOUNCEMENT MODAL
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="announcementModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3>New Announcement</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('announcementModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="announcementForm">
+
+                <div class="form-group">
+
+                    <label>
+                        Title *
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="announcementTitle"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group" style="margin-top:15px;">
+
+                    <label>
+                        Message *
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="announcementMessage"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="closeModal('announcementModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Publish
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     TOAST
+====================================================== -->
+
+<div
+    class="toast-container"
+    id="toastContainer"
+></div>
+
+
+<script>
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const defaultMembers = [
+    {
+        id:1,
+        name:"Aarav Sharma",
+        email:"aarav@abhyudaya.club",
+        role:"Team Lead",
+        department:"Technical",
+        year:"3rd Year",
+        status:"Active"
+    },
+    {
+        id:2,
+        name:"Ananya Verma",
+        email:"ananya@abhyudaya.club",
+        role:"Coordinator",
+        department:"PR",
+        year:"2nd Year",
+        status:"Active"
+    },
+    {
+        id:3,
+        name:"Rohan Singh",
+        email:"rohan@abhyudaya.club",
+        role:"Core Member",
+        department:"Creative",
+        year:"3rd Year",
+        status:"Active"
+    },
+    {
+        id:4,
+        name:"Priya Gupta",
+        email:"priya@abhyudaya.club",
+        role:"Member",
+        department:"Events",
+        year:"1st Year",
+        status:"Pending"
+    },
+    {
+        id:5,
+        name:"Aditya Mishra",
+        email:"aditya@abhyudaya.club",
+        role:"Admin",
+        department:"Management",
+        year:"4th Year",
+        status:"Active"
+    }
+];
+
+
+const defaultEvents = [
+    {
+        id:1,
+        name:"Orientation 2026",
+        date:"2026-08-20",
+        time:"10:00",
+        location:"Main Auditorium",
+        description:"Welcome and orientation program for new club members."
+    },
+    {
+        id:2,
+        name:"Creative Workshop",
+        date:"2026-08-27",
+        time:"14:00",
+        location:"Innovation Lab",
+        description:"Hands-on workshop organized by the Creative Team."
+    },
+    {
+        id:3,
+        name:"Annual Club Meet",
+        date:"2026-09-05",
+        time:"11:00",
+        location:"Seminar Hall",
+        description:"Annual meeting of ABHYUDAYA GROUP members."
+    }
+];
+
+
+const defaultMedia = [
+    {
+        id:1,
+        title:"Orientation Poster",
+        category:"Poster",
+        type:"Image"
+    },
+    {
+        id:2,
+        title:"Creative Team",
+        category:"Team",
+        type:"Image"
+    },
+    {
+        id:3,
+        title:"Annual Meet Banner",
+        category:"Event",
+        type:"Poster"
+    },
+    {
+        id:4,
+        title:"Club Introduction",
+        category:"Promotion",
+        type:"Video"
+    }
+];
+
+
+const defaultAnnouncements = [
+    {
+        id:1,
+        title:"Welcome to ABHYUDAYA GROUP",
+        message:"The new club administration portal is now ready for internal management.",
+        date:"Today"
+    },
+    {
+        id:2,
+        title:"Upcoming Orientation",
+        message:"All coordinators are requested to submit their event requirements.",
+        date:"Yesterday"
+    },
+    {
+        id:3,
+        title:"Media Submission",
+        message:"Creative and PR teams should upload the latest event media.",
+        date:"2 days ago"
+    }
+];
+
+
+const defaultActivity = [
+    {
+        text:"System initialized",
+        time:"Just now"
+    },
+    {
+        text:"Admin dashboard opened",
+        time:"Today"
+    },
+    {
+        text:"Member database synchronized",
+        time:"Today"
+    }
+];
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+
+let members =
+    JSON.parse(localStorage.getItem("abhyudaya_members"))
+    || defaultMembers;
+
+let events =
+    JSON.parse(localStorage.getItem("abhyudaya_events"))
+    || defaultEvents;
+
+let media =
+    JSON.parse(localStorage.getItem("abhyudaya_media"))
+    || defaultMedia;
+
+let announcements =
+    JSON.parse(localStorage.getItem("abhyudaya_announcements"))
+    || defaultAnnouncements;
+
+let activity =
+    JSON.parse(localStorage.getItem("abhyudaya_activity"))
+    || defaultActivity;
+
+
+/* =========================================================
+   SAVE DATA
+========================================================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "abhyudaya_members",
+        JSON.stringify(members)
+    );
+
+    localStorage.setItem(
+        "abhyudaya_events",
+        JSON.stringify(events)
+    );
+
+    localStorage.setItem(
+        "abhyudaya_media",
+        JSON.stringify(media)
+    );
+
+    localStorage.setItem(
+        "abhyudaya_announcements",
+        JSON.stringify(announcements)
+    );
+
+    localStorage.setItem(
+        "abhyudaya_activity",
+        JSON.stringify(activity)
+    );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const pageTitles = {
+
+    dashboard:[
+        "Dashboard",
+        "Overview of your club administration"
+    ],
+
+    members:[
+        "Members",
+        "Manage club members and teams"
+    ],
+
+    events:[
+        "Events",
+        "Plan and manage club activities"
+    ],
+
+    media:[
+        "Media Library",
+        "Manage club images and content"
+    ],
+
+    announcements:[
+        "Announcements",
+        "Manage club communication"
+    ],
+
+    activity:[
+        "Activity Log",
+        "Track administrative actions"
+    ],
+
+    settings:[
+        "Settings",
+        "Configure your administration portal"
+    ]
+
+};
+
+
+function navigate(page){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(el=>{
+            el.classList.remove("active");
+        });
+
+
+    const selected =
+        document.getElementById(page);
+
+    if(selected){
+        selected.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(el=>{
+            el.classList.remove("active");
+
+            if(el.dataset.page === page){
+                el.classList.add("active");
+            }
+        });
+
+
+    document.getElementById("pageTitle").textContent =
+        pageTitles[page][0];
+
+    document.getElementById("pageSubtitle").textContent =
+        pageTitles[page][1];
+
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+
+    if(page === "members"){
+        renderMembers();
+    }
+
+    if(page === "events"){
+        renderEvents();
+    }
+
+    if(page === "media"){
+        renderMedia();
+    }
+
+    if(page === "announcements"){
+        renderAnnouncements();
+    }
+
+    if(page === "activity"){
+        renderActivity();
+    }
+
+}
+
+
+document
+    .querySelectorAll(".nav-item")
+    .forEach(item=>{
+
+        item.addEventListener("click",()=>{
+
+            navigate(item.dataset.page);
+
+        });
+
+    });
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+document
+    .getElementById("mobileMenu")
+    .addEventListener("click",()=>{
+
+        document
+            .getElementById("sidebar")
+            .classList.toggle("open");
+
+    });
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function setTheme(dark){
+
+    document.body.classList.toggle(
+        "dark",
+        dark
+    );
+
+    localStorage.setItem(
+        "abhyudaya_dark",
+        dark
+    );
+
+    document.getElementById("themeButton").textContent =
+        dark ? "☀" : "☾";
+
+    document.getElementById("darkToggle").checked =
+        dark;
+
+}
+
+
+const savedTheme =
+    localStorage.getItem("abhyudaya_dark") === "true";
+
+setTheme(savedTheme);
+
+
+document
+    .getElementById("themeButton")
+    .addEventListener("click",()=>{
+
+        setTheme(
+            !document.body.classList.contains("dark")
+        );
+
+    });
+
+
+document
+    .getElementById("darkToggle")
+    .addEventListener("change",(e)=>{
+
+        setTheme(e.target.checked);
+
+    });
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function updateStats(){
+
+    document.getElementById("statMembers").textContent =
+        members.length;
+
+    document.getElementById("statEvents").textContent =
+        events.length;
+
+    document.getElementById("statMedia").textContent =
+        media.length;
+
+    document.getElementById("statAnnouncements").textContent =
+        announcements.length;
+
+}
+
+
+function getInitials(name){
+
+    return name
+        .split(" ")
+        .map(x=>x[0])
+        .slice(0,2)
+        .join("")
+        .toUpperCase();
+
+}
+
+
+function statusBadge(status){
+
+    let cls = "badge-blue";
+
+    if(status === "Active")
+        cls = "badge-green";
+
+    if(status === "Pending")
+        cls = "badge-orange";
+
+    if(status === "Inactive")
+        cls = "badge-red";
+
+    return `
+        <span class="badge ${cls}">
+            ${status}
+        </span>
+    `;
+
+}
+
+
+function renderRecentMembers(){
+
+    const tbody =
+        document.getElementById("recentMembers");
+
+    const recent =
+        members.slice(-5).reverse();
+
+    if(recent.length === 0){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    <div class="empty">
+                        No members yet.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        recent.map(member=>`
+
+            <tr>
+
+                <td>
+
+                    <div class="member-cell">
+
+                        <div class="member-avatar">
+                            ${getInitials(member.name)}
+                        </div>
+
+                        <div>
+
+                            <div class="member-name">
+                                ${escapeHTML(member.name)}
+                            </div>
+
+                            <div class="member-email">
+                                ${escapeHTML(member.email)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>
+                    ${escapeHTML(member.department)}
+                </td>
+
+                <td>
+                    ${statusBadge(member.status)}
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+
+function renderDashboardActivity(){
+
+    const container =
+        document.getElementById("dashboardActivity");
+
+    const recent =
+        activity.slice(-4).reverse();
+
+    container.innerHTML =
+        recent.map(item=>`
+
+            <div class="activity-item">
+
+                <div class="activity-dot"></div>
+
+                <div>
+
+                    <p>
+                        ${escapeHTML(item.text)}
+                    </p>
+
+                    <small>
+                        ${escapeHTML(item.time)}
+                    </small>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =========================================================
+   MEMBERS
+========================================================= */
+
+function renderMembers(){
+
+    const search =
+        document
+        .getElementById("memberSearch")
+        .value
+        .toLowerCase();
+
+    const department =
+        document
+        .getElementById("departmentFilter")
+        .value;
+
+
+    const filtered =
+        members.filter(member=>{
+
+            const matchesSearch =
+                member.name.toLowerCase().includes(search)
+                ||
+                member.email.toLowerCase().includes(search)
+                ||
+                member.role.toLowerCase().includes(search);
+
+            const matchesDepartment =
+                !department
+                ||
+                member.department === department;
+
+            return matchesSearch &&
+                   matchesDepartment;
+
+        });
+
+
+    document.getElementById("memberCount").textContent =
+        `${filtered.length} members`;
+
+
+    const tbody =
+        document.getElementById("membersTable");
+
+
+    if(filtered.length === 0){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            ♙
+                        </div>
+
+                        <h3>
+                            No members found
+                        </h3>
+
+                        <p>
+                            Try changing your search or add a new member.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        filtered.map(member=>`
+
+            <tr>
+
+                <td>
+
+                    <div class="member-cell">
+
+                        <div class="member-avatar">
+                            ${getInitials(member.name)}
+                        </div>
+
+                        <div>
+
+                            <div class="member-name">
+                                ${escapeHTML(member.name)}
+                            </div>
+
+                            <div class="member-email">
+                                ${escapeHTML(member.email)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+                    ${escapeHTML(member.role)}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(member.department)}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(member.year)}
+                </td>
+
+
+                <td>
+                    ${statusBadge(member.status)}
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="btn btn-secondary btn-small"
+                        onclick="editMember(${member.id})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="btn btn-danger btn-small"
+                        onclick="deleteMember(${member.id})"
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+
+function openMemberModal(id=null){
+
+    document
+        .getElementById("memberModal")
+        .classList.add("show");
+
+
+    if(id){
+
+        const member =
+            members.find(x=>x.id === id);
+
+        document.getElementById("memberModalTitle")
+            .textContent =
+            "Edit Member";
+
+
+        document.getElementById("memberId")
+            .value = member.id;
+
+        document.getElementById("memberName")
+            .value = member.name;
+
+        document.getElementById("memberEmail")
+            .value = member.email;
+
+        document.getElementById("memberRole")
+            .value = member.role;
+
+        document.getElementById("memberDepartment")
+            .value = member.department;
+
+        document.getElementById("memberYear")
+            .value = member.year;
+
+        document.getElementById("memberStatus")
+            .value = member.status;
+
+    }else{
+
+        document.getElementById("memberModalTitle")
+            .textContent =
+            "Add New Member";
+
+        document.getElementById("memberForm")
+            .reset();
+
+        document.getElementById("memberId")
+            .value = "";
+
+    }
+
+}
+
+
+function editMember(id){
+
+    openMemberModal(id);
+
+}
+
+
+document
+    .getElementById("memberForm")
+    .addEventListener("submit",(e)=>{
+
+        e.preventDefault();
+
+
+        const id =
+            document.getElementById("memberId").value;
+
+
+        const data = {
+
+            name:
+                document.getElementById("memberName").value.trim(),
+
+            email:
+                document.getElementById("memberEmail").value.trim(),
+
+            role:
+                document.getElementById("memberRole").value,
+
+            department:
+                document.getElementById("memberDepartment").value,
+
+            year:
+                document.getElementById("memberYear").value,
+
+            status:
+                document.getElementById("memberStatus").value
+
+        };
+
+
+        if(id){
+
+            const index =
+                members.findIndex(
+                    x=>x.id === Number(id)
+                );
+
+            members[index] = {
+                ...members[index],
+                ...data
+            };
+
+            addActivity(
+                `Updated member: ${data.name}`
+            );
+
+            showToast(
+                "Member updated successfully"
+            );
+
+        }else{
+
+            const newMember = {
+
+                id:Date.now(),
+
+                ...data
+
+            };
+
+            members.push(newMember);
+
+            addActivity(
+                `Added new member: ${data.name}`
+            );
+
+            showToast(
+                "Member added successfully"
+            );
+
+        }
+
+
+        saveData();
+
+        closeModal("memberModal");
+
+        renderMembers();
+
+        updateStats();
+
+        renderRecentMembers();
+
+    });
+
+
+function deleteMember(id){
+
+    const member =
+        members.find(x=>x.id === id);
+
+    if(!member)
+        return;
+
+
+    const confirmed =
+        confirm(
+            `Delete ${member.name} from the member database?`
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    members =
+        members.filter(x=>x.id !== id);
+
+
+    addActivity(
+        `Deleted member: ${member.name}`
+    );
+
+
+    saveData();
+
+    renderMembers();
+
+    renderRecentMembers();
+
+    updateStats();
+
+    showToast(
+        "Member deleted"
+    );
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+function renderEvents(){
+
+    const grid =
+        document.getElementById("eventsGrid");
+
+
+    if(events.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="card" style="grid-column:1/-1">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ◫
+                    </div>
+
+                    <h3>
+                        No events
+                    </h3>
+
+                    <p>
+                        Create your first club event.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        events.map(event=>`
+
+            <div class="event-card">
+
+                <div class="event-cover">
+
+                    <div>
+
+                        <span
+                            class="badge"
+                            style="background:rgba(255,255,255,.2);color:white;"
+                        >
+                            CLUB EVENT
+                        </span>
+
+                        <h3>
+                            ${escapeHTML(event.name)}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-info">
+
+                    <p>
+                        📅 ${formatDate(event.date)}
+                    </p>
+
+                    <p>
+                        ◷ ${escapeHTML(event.time || "Time TBA")}
+                    </p>
+
+                    <p>
+                        ⌖ ${escapeHTML(event.location || "Location TBA")}
+                    </p>
+
+                    <p>
+                        ${escapeHTML(event.description || "No description")}
+                    </p>
+
+
+                    <button
+                        class="btn btn-danger btn-small"
+                        onclick="deleteEvent(${event.id})"
+                        style="margin-top:8px;"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openEventModal(){
+
+    document
+        .getElementById("eventModal")
+        .classList.add("show");
+
+    document
+        .getElementById("eventForm")
+        .reset();
+
+}
+
+
+document
+    .getElementById("eventForm")
+    .addEventListener("submit",(e)=>{
+
+        e.preventDefault();
+
+
+        const event = {
+
+            id:Date.now(),
+
+            name:
+                document.getElementById("eventName").value.trim(),
+
+            date:
+                document.getElementById("eventDate").value,
+
+            time:
+                document.getElementById("eventTime").value,
+
+            location:
+                document.getElementById("eventLocation").value.trim(),
+
+            description:
+                document.getElementById("eventDescription").value.trim()
+
+        };
+
+
+        events.push(event);
+
+
+        addActivity(
+            `Created event: ${event.name}`
+        );
+
+
+        saveData();
+
+        closeModal("eventModal");
+
+        renderEvents();
+
+        updateStats();
+
+        showToast(
+            "Event created successfully"
+        );
+
+    });
+
+
+function deleteEvent(id){
+
+    const event =
+        events.find(x=>x.id === id);
+
+    if(!event)
+        return;
+
+
+    if(!confirm(
+        `Delete event "${event.name}"?`
+    ))
+        return;
+
+
+    events =
+        events.filter(x=>x.id !== id);
+
+
+    addActivity(
+        `Deleted event: ${event.name}`
+    );
+
+
+    saveData();
+
+    renderEvents();
+
+    updateStats();
+
+    showToast(
+        "Event deleted"
+    );
+
+}
+
+
+/* =========================================================
+   MEDIA
+========================================================= */
+
+function renderMedia(){
+
+    const grid =
+        document.getElementById("mediaGrid");
+
+
+    if(media.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="card" style="grid-column:1/-1">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ▧
+                    </div>
+
+                    <h3>
+                        Media library is empty
+                    </h3>
+
+                    <p>
+                        Add your first media item.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        media.map(item=>`
+
+            <div class="media-card">
+
+                <div class="media-preview">
+
+                    ${
+                        item.type === "Video"
+                        ? "▶"
+                        : item.type === "Document"
+                        ? "▤"
+                        : "▧"
+                    }
+
+                </div>
+
+
+                <div class="media-info">
+
+                    <strong>
+                        ${escapeHTML(item.title)}
+                    </strong>
+
+                    <small>
+                        ${escapeHTML(item.category)}
+                        •
+                        ${escapeHTML(item.type)}
+                    </small>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openMediaModal(){
+
+    document
+        .getElementById("mediaModal")
+        .classList.add("show");
+
+    document
+        .getElementById("mediaForm")
+        .reset();
+
+}
+
+
+document
+    .getElementById("mediaForm")
+    .addEventListener("submit",(e)=>{
+
+        e.preventDefault();
+
+
+        const item = {
+
+            id:Date.now(),
+
+            title:
+                document.getElementById("mediaTitle").value.trim(),
+
+            category:
+                document.getElementById("mediaCategory").value,
+
+            type:
+                document.getElementById("mediaType").value
+
+        };
+
+
+        media.push(item);
+
+
+        addActivity(
+            `Added media: ${item.title}`
+        );
+
+
+        saveData();
+
+        closeModal("mediaModal");
+
+        renderMedia();
+
+        updateStats();
+
+        showToast(
+            "Media added successfully"
+        );
+
+    });
+
+
+/* =========================================================
+   ANNOUNCEMENTS
+========================================================= */
+
+function renderAnnouncements(){
+
+    const container =
+        document.getElementById("announcementList");
+
+
+    if(announcements.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ◉
+                </div>
+
+                <h3>
+                    No announcements
+                </h3>
+
+                <p>
+                    Publish your first announcement.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        announcements.slice().reverse().map(item=>`
+
+            <div class="announcement">
+
+                <div class="announcement-icon">
+                    ◉
+                </div>
+
+                <div style="flex:1;">
+
+                    <h4>
+                        ${escapeHTML(item.title)}
+                    </h4>
+
+                    <p>
+                        ${escapeHTML(item.message)}
+                    </p>
+
+                    <small
+                        style="color:var(--muted);display:block;margin-top:6px;"
+                    >
+                        ${escapeHTML(item.date)}
+                    </small>
+
+                </div>
+
+                <button
+                    class="btn btn-danger btn-small"
+                    onclick="deleteAnnouncement(${item.id})"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openAnnouncementModal(){
+
+    document
+        .getElementById("announcementModal")
+        .classList.add("show");
+
+    document
+        .getElementById("announcementForm")
+        .reset();
+
+}
+
+
+document
+    .getElementById("announcementForm")
+    .addEventListener("submit",(e)=>{
+
+        e.preventDefault();
+
+
+        const announcement = {
+
+            id:Date.now(),
+
+            title:
+                document
+                .getElementById("announcementTitle")
+                .value
+                .trim(),
+
+            message:
+                document
+                .getElementById("announcementMessage")
+                .value
+                .trim(),
+
+            date:"Just now"
+
+        };
+
+
+        announcements.push(
+            announcement
+        );
+
+
+        addActivity(
+            `Published announcement: ${announcement.title}`
+        );
+
+
+        saveData();
+
+        closeModal(
+            "announcementModal"
+        );
+
+        renderAnnouncements();
+
+        updateStats();
+
+        showToast(
+            "Announcement published"
+        );
+
+    });
+
+
+function deleteAnnouncement(id){
+
+    const item =
+        announcements.find(
+            x=>x.id === id
+        );
+
+    if(!item)
+        return;
+
+
+    if(!confirm(
+        `Delete "${item.title}"?`
+    ))
+        return;
+
+
+    announcements =
+        announcements.filter(
+            x=>x.id !== id
+        );
+
+
+    addActivity(
+        `Deleted announcement: ${item.title}`
+    );
+
+
+    saveData();
+
+    renderAnnouncements();
+
+    updateStats();
+
+    showToast(
+        "Announcement deleted"
+    );
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function addActivity(text){
+
+    activity.push({
+
+        text:text,
+
+        time:new Date().toLocaleString()
+
+    });
+
+
+    if(activity.length > 100){
+
+        activity =
+            activity.slice(-100);
+
+    }
+
+
+    saveData();
+
+    renderActivity();
+
+    renderDashboardActivity();
+
+}
+
+
+function renderActivity(){
+
+    const container =
+        document.getElementById("activityList");
+
+
+    if(activity.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ◷
+                </div>
+
+                <h3>
+                    No activity
+                </h3>
+
+                <p>
+                    Administrative actions will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        activity
+        .slice()
+        .reverse()
+        .map(item=>`
+
+            <div class="activity-item">
+
+                <div class="activity-dot"></div>
+
+                <div>
+
+                    <p>
+                        ${escapeHTML(item.text)}
+                    </p>
+
+                    <small>
+                        ${escapeHTML(item.time)}
+                    </small>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function clearActivity(){
+
+    if(!confirm(
+        "Clear the complete activity log?"
+    ))
+        return;
+
+
+    activity = [];
+
+    saveData();
+
+    renderActivity();
+
+    renderDashboardActivity();
+
+    showToast(
+        "Activity log cleared"
+    );
+
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+}
+
+
+document
+    .querySelectorAll(".modal-overlay")
+    .forEach(overlay=>{
+
+        overlay.addEventListener(
+            "click",
+            e=>{
+
+                if(e.target === overlay){
+
+                    overlay.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+document
+    .addEventListener("keydown",e=>{
+
+        if(e.key === "Escape"){
+
+            document
+                .querySelectorAll(".modal-overlay.show")
+                .forEach(modal=>{
+                    modal.classList.remove("show");
+                });
+
+        }
+
+    });
+
+
+/* =========================================================
+   EXPORT MEMBERS CSV
+========================================================= */
+
+function exportMembers(){
+
+    if(members.length === 0){
+
+        showToast(
+            "There are no members to export."
+        );
+
+        return;
+
+    }
+
+
+    const headers = [
+        "Name",
+        "Email",
+        "Role",
+        "Department",
+        "Year",
+        "Status"
+    ];
+
+
+    const rows =
+        members.map(member=>[
+            member.name,
+            member.email,
+            member.role,
+            member.department,
+            member.year,
+            member.status
+        ]);
+
+
+    let csv =
+        headers.join(",") + "\n";
+
+
+    rows.forEach(row=>{
+
+        csv +=
+            row
+            .map(value=>`"${String(value).replace(/"/g,'""')}"`)
+            .join(",")
+            + "\n";
+
+    });
+
+
+    downloadFile(
+        csv,
+        "abhyudaya-members.csv",
+        "text/csv"
+    );
+
+
+    addActivity(
+        "Exported member database as CSV"
+    );
+
+
+    showToast(
+        "Member database exported"
+    );
+
+}
+
+
+/* =========================================================
+   EXPORT ALL DATA
+========================================================= */
+
+function exportData(){
+
+    const data = {
+
+        club:"ABHYUDAYA GROUP",
+
+        exportedAt:
+            new Date().toISOString(),
+
+        members,
+
+        events,
+
+        media,
+
+        announcements,
+
+        activity
+
+    };
+
+
+    downloadFile(
+
+        JSON.stringify(
+            data,
+            null,
+            2
+        ),
+
+        "abhyudaya-group-backup.json",
+
+        "application/json"
+
+    );
+
+
+    showToast(
+        "Backup downloaded"
+    );
+
+}
+
+
+/* =========================================================
+   DOWNLOAD HELPER
+========================================================= */
+
+function downloadFile(
+    content,
+    filename,
+    type
+){
+
+    const blob =
+        new Blob(
+            [content],
+            {type:type}
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download = filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   RESET DATA
+========================================================= */
+
+function resetData(){
+
+    if(!confirm(
+        "Reset all portal data to the original demo data?"
+    ))
+        return;
+
+
+    members =
+        JSON.parse(
+            JSON.stringify(defaultMembers)
+        );
+
+    events =
+        JSON.parse(
+            JSON.stringify(defaultEvents)
+        );
+
+    media =
+        JSON.parse(
+            JSON.stringify(defaultMedia)
+        );
+
+    announcements =
+        JSON.parse(
+            JSON.stringify(defaultAnnouncements)
+        );
+
+    activity =
+        JSON.parse(
+            JSON.stringify(defaultActivity)
+        );
+
+
+    saveData();
+
+
+    updateStats();
+
+    renderRecentMembers();
+
+    renderDashboardActivity();
+
+    renderMembers();
+
+    renderEvents();
+
+    renderMedia();
+
+    renderAnnouncements();
+
+    renderActivity();
+
+
+    showToast(
+        "Demo data restored"
+    );
+
+}
+
+
+/* =========================================================
+   DATE FORMAT
+========================================================= */
+
+function formatDate(date){
+
+    if(!date)
+        return "Date TBA";
+
+
+    const d =
+        new Date(
+            date + "T00:00:00"
+        );
+
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day:"numeric",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   HTML SECURITY
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+    const container =
+        document.getElementById(
+            "toastContainer"
+        );
+
+
+    const toast =
+        document.createElement("div");
+
+
+    toast.className =
+        "toast";
+
+
+    toast.innerHTML = `
+        <span style="color:var(--success);font-size:16px;">
+            ✓
+        </span>
+
+        <span>
+            ${escapeHTML(message)}
+        </span>
+    `;
+
+
+    container.appendChild(toast);
+
+
+    setTimeout(()=>{
+
+        toast.style.opacity = "0";
+
+        toast.style.transform =
+            "translateX(20px)";
+
+        setTimeout(
+            ()=>toast.remove(),
+            250
+        );
+
+    },3000);
+
+}
+
+
+/* =========================================================
+   SETTINGS TABS
+========================================================= */
+
+document
+    .querySelectorAll(".settings-tab")
+    .forEach(tab=>{
+
+        tab.addEventListener(
+            "click",
+            ()=>{
+
+                document
+                    .querySelectorAll(".settings-tab")
+                    .forEach(x=>
+                        x.classList.remove("active")
+                    );
+
+                tab.classList.add("active");
+
+                showToast(
+                    `${tab.textContent.trim()} settings selected`
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+function initialize(){
+
+    updateStats();
+
+    renderRecentMembers();
+
+    renderDashboardActivity();
+
+    renderMembers();
+
+    renderEvents();
+
+    renderMedia();
+
+    renderAnnouncements();
+
+    renderActivity();
+
+}
+
+
+initialize();
+
+
+/* =========================================================
+   CONSOLE MESSAGE
+========================================================= */
+
+console.log(
+`
+========================================
+ ABHYUDAYA GROUP ADMIN PORTAL
+========================================
+
+Frontend prototype initialized.
+
+Features:
+✓ Members
+✓ Events
+✓ Media
+✓ Announcements
+✓ Activity Log
+✓ Settings
+✓ Dark Mode
+✓ LocalStorage
+✓ CSV Export
+✓ JSON Backup
+
+========================================
+`
+);
+
+</script>
+
+</body>
+</html>
